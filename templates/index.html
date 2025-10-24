@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Bestellsystem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .pizza-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .pizza-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+            border-top: 2px solid #333;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>🍕 Pizza Bestellsystem</h1>
+
+<h2>Sortiment</h2>
+{% for id, pizza in sortiment.items() %}
+    <div class="pizza-item">
+        <span><b>{{ pizza.Name }}</b> ({{ pizza.Beläge }})</span>
+        <span>{{ "%.2f"|format(pizza.Preis_Euro) }} €
+              <form action="{{ url_for('add_to_cart', pizza_id=id) }}" method="POST" style="display:inline;">
+                <button type="submit">+</button>
+              </form>
+        </span>
+    </div>
+{% endfor %}
+
+<h2>Ihr Warenkorb</h2>
+{% if warenkorb_details %}
+    {% for item in warenkorb_details %}
+        <div class="cart-item">
+            <span>{{ item.anzahl }}x {{ item.name }}</span>
+            <span>
+                {{ "%.2f"|format(item.kosten) }} €
+                <form action="{{ url_for('remove_from_cart', pizza_id=item.id) }}" method="POST"
+                      style="display:inline;">
+                    <button type="submit" style="color: red; margin-left: 10px;">-</button>
+                </form>
+            </span>
+        </div>
+    {% endfor %}
+
+    <div class="cart-total">
+        <span>Gesamtbetrag:</span>
+        <span>{{ "%.2f"|format(gesamtkosten) }} €</span>
+    </div>
+
+    <form action="{{ url_for('place_order') }}" method="POST" style="margin-top: 20px;">
+        <button type="submit"
+                style="padding: 10px 20px; background-color: green; color: white; border: none; cursor: pointer;">
+            BESTELLUNG ABSCHLIESSEN
+        </button>
+    </form>
+{% else %}
+    <p>Ihr Warenkorb ist leer.</p>
+{% endif %}
+
+</body>
+</html>

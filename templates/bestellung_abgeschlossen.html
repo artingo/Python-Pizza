@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bestellung Abgeschlossen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .success {
+            color: green;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>🎉 Bestellung Abgeschlossen 🎉</h1>
+
+<p class="success">Vielen Dank für Ihre Bestellung!</p>
+
+<p>Die Gesamtkosten betrugen: <b>{{ "%.2f"|format(gesamtkosten) }} €</b></p>
+
+<p>Ihre Bestellung wurde erfolgreich gespeichert. Sie erhalten Ihre Pizzen in Kürze.</p>
+
+<p><a href="{{ url_for('index') }}">Neue Bestellung starten</a></p>
+</body>
+</html>
